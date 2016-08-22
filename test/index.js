@@ -31,7 +31,7 @@ var input = [
 
 var report = [
   'readme.md',
-  '        4:1  warning  Remove 1 line before node   no-consecutive-blank-lines',
+  '  4:1  warning  Remove 1 line before node  no-consecutive-blank-lines  remark-lint',
   '',
   '⚠ 1 warning',
   ''

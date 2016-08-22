@@ -14,5 +14,6 @@ module.exports = engine({
   rcName: '.remarkrc',
   packageField: 'remarkConfig',
   ignoreName: '.remarkignore',
-  pluginPrefix: 'remark'
+  pluginPrefix: 'remark',
+  presetPrefix: 'remark-preset'
 });

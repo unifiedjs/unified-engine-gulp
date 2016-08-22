@@ -70,7 +70,7 @@ by users of the plug-in.
     `ignoreName` is given)
     — Whether to search for ignore files.
 *   [`ignorePath`][ignore-path] (`string`, optional)
-    — File-path to a ignore file to load.
+    — File-path to an ignore file to load.
 *   [`plugins`][plugins] (`Object`, optional)
     — Map of plug-in names or paths and options to use.
 *   [`pluginPrefix`][plugin-prefix] (`string`, optional)

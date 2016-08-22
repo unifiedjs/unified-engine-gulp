@@ -18,7 +18,7 @@
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
   ],
   "dependencies": {
-    "convert-vinyl-to-vfile": "^0.1.1",
+    "convert-vinyl-to-vfile": "^1.0.0",
     "gulp-util": "^3.0.7",
     "through2": "^2.0.1",
     "unified-engine": "^1.5.0",

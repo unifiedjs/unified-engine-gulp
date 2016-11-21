@@ -15,10 +15,8 @@ npm install unified-engine-gulp
 ## Usage
 
 ```js
-/* Dependencies. */
 var engine = require('unified-engine-gulp');
 
-/* Expose. */
 module.exports = engine({
   name: 'gulp-remark',
   processor: require('remark'),

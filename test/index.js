@@ -1,14 +1,5 @@
-/**
- * @author Titus Wormer
- * @copyright 2016 Titus Wormer
- * @license MIT
- * @module unified-engine
- * @fileoverview Test suite for `unified-engine`.
- */
-
 'use strict';
 
-/* Dependencies. */
 var PassThrough = require('stream').PassThrough;
 var util = require('gulp-util');
 var test = require('tape');
@@ -17,7 +8,6 @@ var engine = require('..');
 var example = require('./example');
 var spy = require('./spy');
 
-/* Constants. */
 var File = util.File;
 var PluginError = util.PluginError;
 
@@ -37,7 +27,6 @@ var report = [
   ''
 ].join('\n');
 
-/* Tests. */
 test('unified-engine-gulp', function (t) {
   t.plan(8);
 

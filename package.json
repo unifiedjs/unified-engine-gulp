@@ -8,14 +8,14 @@
     "unified",
     "processor"
   ],
-  "files": [
-    "index.js"
-  ],
   "repository": "https://github.com/wooorm/unified-engine-gulp",
   "bugs": "https://github.com/wooorm/unified-engine-gulp/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"
+  ],
+  "files": [
+    "index.js"
   ],
   "dependencies": {
     "convert-vinyl-to-vfile": "^1.0.0",
@@ -25,7 +25,7 @@
     "xtend": "^4.0.1"
   },
   "devDependencies": {
-    "nyc": "^8.0.0",
+    "nyc": "^9.0.1",
     "remark": "^6.0.0",
     "remark-cli": "^2.0.0",
     "remark-html": "^5.0.0",

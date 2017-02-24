@@ -24,14 +24,14 @@ function gulpEngine(configuration) {
   function plugin(options) {
     var fileStream;
     var config = xtend(options, configuration, {
-      injectedPlugins: [],
+      plugins: [],
       silentlyIgnore: true,
       alwaysStringify: true,
       output: false
     });
 
     /* Prevent some settings from being configured. */
-    config.cwd = config.globs = config.extensions = undefined;
+    config.cwd = config.files = config.extensions = undefined;
     config.out = config.streamIn = config.streamOut = undefined;
 
     /* Handle virtual files. */
@@ -55,7 +55,7 @@ function gulpEngine(configuration) {
 
     /* Inject plug-ins. See: https://github.com/wooorm/unified-engine. */
     function use() {
-      config.injectedPlugins.push([].slice.call(arguments));
+      config.plugins.push([].slice.call(arguments));
       return fileStream;
     }
   }

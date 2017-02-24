@@ -92,10 +92,6 @@ There’s also a `fileStream.use()` function, which mimics
 [`unified.use()`][use] in that it accepts a plug-in and configuration.
 It returns the operated on `fileStream`.
 
-> **Note:** Be careful not to pass plug-ins which are also detected
-> (for example, from configuration files), as this results in the
-> same plug-in being attached multiple times.
-
 ## License
 
 [MIT][license] © [Titus Wormer][author]

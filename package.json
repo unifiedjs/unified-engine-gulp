@@ -21,20 +21,20 @@
     "convert-vinyl-to-vfile": "^1.0.0",
     "gulp-util": "^3.0.7",
     "through2": "^2.0.1",
-    "unified-engine": "^2.0.0",
+    "unified-engine": "^3.0.2",
     "xtend": "^4.0.1"
   },
   "devDependencies": {
     "nyc": "^10.0.0",
-    "remark": "^6.0.0",
-    "remark-cli": "^2.0.0",
-    "remark-html": "^5.0.0",
-    "remark-preset-wooorm": "^1.0.0",
+    "remark": "^7.0.0",
+    "remark-cli": "^3.0.0",
+    "remark-html": "^6.0.0",
+    "remark-preset-wooorm": "^2.0.0",
     "tape": "^4.6.0",
     "xo": "^0.17.0"
   },
   "scripts": {
-    "build": "remark *.md --quiet --frail",
+    "build": "remark *.md -qfo",
     "lint": "xo",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test",
@@ -50,7 +50,6 @@
     "branches": 100
   },
   "remarkConfig": {
-    "output": true,
-    "presets": "wooorm"
+    "plugins": ["preset-wooorm"]
   }
 }

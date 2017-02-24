@@ -98,9 +98,9 @@ It returns the operated on `fileStream`.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/wooorm/unified-engine-gulp.svg
+[travis-badge]: https://img.shields.io/travis/unifiedjs/unified-engine-gulp.svg
 
-[travis]: https://travis-ci.org/wooorm/unified-engine-gulp
+[travis]: https://travis-ci.org/unifiedjs/unified-engine-gulp
 
 [npm-install]: https://docs.npmjs.com/cli/install
 
@@ -108,54 +108,54 @@ It returns the operated on `fileStream`.
 
 [author]: http://wooorm.com
 
-[unified]: https://github.com/wooorm/unified
+[unified]: https://github.com/unifiedjs/unified
 
-[engine]: https://github.com/wooorm/unified-engine
+[engine]: https://github.com/unifiedjs/unified-engine
 
 [info]: https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md
 
-[unified-processor]: https://github.com/wooorm/unified#processor
+[unified-processor]: https://github.com/unifiedjs/unified#processor
 
-[processor]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsprocessor
+[processor]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsprocessor
 
-[detect-config]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsdetectconfig
+[detect-config]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsdetectconfig
 
-[stream-error]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsstreamerror
+[stream-error]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsstreamerror
 
-[tree]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionstree
+[tree]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionstree
 
-[tree-in]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionstreein
+[tree-in]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionstreein
 
-[tree-out]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionstreeout
+[tree-out]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionstreeout
 
-[rc-name]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsrcname
+[rc-name]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsrcname
 
-[package-field]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionspackagefield
+[package-field]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionspackagefield
 
-[rc-path]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsrcpath
+[rc-path]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsrcpath
 
-[settings]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionssettings
+[settings]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionssettings
 
-[detect-ignore]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsdetectignore
+[detect-ignore]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsdetectignore
 
-[ignore-name]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsignorename
+[ignore-name]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsignorename
 
-[ignore-path]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsignorepath
+[ignore-path]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsignorepath
 
-[plugin-prefix]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionspluginprefix
+[plugin-prefix]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionspluginprefix
 
-[plugins]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsplugins
+[plugins]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsplugins
 
-[color]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionscolor
+[color]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionscolor
 
-[silent]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionssilent
+[silent]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionssilent
 
-[quiet]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsquiet
+[quiet]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsquiet
 
-[frail]: https://github.com/wooorm/unified-engine/blob/master/doc/options.md#optionsfrail
+[frail]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsfrail
 
 [through2]: https://github.com/rvagg/through2#readme
 
 [streaming]: https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md
 
-[use]: https://github.com/wooorm/unified#processoruseplugin-options
+[use]: https://github.com/unifiedjs/unified#processoruseplugin-options

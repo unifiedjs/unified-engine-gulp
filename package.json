@@ -8,8 +8,8 @@
     "unified",
     "processor"
   ],
-  "repository": "https://github.com/wooorm/unified-engine-gulp",
-  "bugs": "https://github.com/wooorm/unified-engine-gulp/issues",
+  "repository": "https://github.com/unifiedjs/unified-engine-gulp",
+  "bugs": "https://github.com/unifiedjs/unified-engine-gulp/issues",
   "author": "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (http://wooorm.com)"

@@ -53,7 +53,7 @@ function gulpEngine(configuration) {
     /* Return. */
     return fileStream;
 
-    /* Inject plug-ins. See: https://github.com/wooorm/unified-engine. */
+    /* Inject plug-ins. See: https://github.com/unifiedjs/unified-engine. */
     function use() {
       config.plugins.push([].slice.call(arguments));
       return fileStream;

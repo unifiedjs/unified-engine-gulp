@@ -31,8 +31,12 @@ function gulpEngine(configuration) {
     });
 
     /* Prevent some settings from being configured. */
-    config.cwd = config.files = config.extensions = undefined;
-    config.out = config.streamIn = config.streamOut = undefined;
+    config.cwd = undefined;
+    config.files = undefined;
+    config.extensions = undefined;
+    config.out = undefined;
+    config.streamIn = undefined;
+    config.streamOut = undefined;
 
     /* Handle virtual files. */
     fileStream = through.obj(function (vinyl, encoding, callback) {

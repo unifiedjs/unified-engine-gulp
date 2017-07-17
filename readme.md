@@ -109,6 +109,14 @@ Map of plug-in names or paths and options to use (`Object`, optional).
 When given, optional prefix to use when searching for plug-ins (`string`,
 optional).
 
+###### [`options.reporter`][reporter]
+
+Reporter to use (`string` or `function`, default: `require('vfile-reporter')`).
+
+###### [`options.reporterOptions`][reporteroptions]
+
+Config to pass to the used reporter (`Object?`, optional).
+
 ###### [`options.color`][color]
 
 Whether to report with ANSI colour sequences (`boolean`, default: `false`).
@@ -188,6 +196,10 @@ It returns the operated on `fileStream`.
 [plugin-prefix]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionspluginprefix
 
 [plugins]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsplugins
+
+[reporter]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsreporter
+
+[reporteroptions]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsreporteroptions
 
 [color]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionscolor
 

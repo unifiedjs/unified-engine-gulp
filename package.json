@@ -18,10 +18,10 @@
     "index.js"
   ],
   "dependencies": {
-    "convert-vinyl-to-vfile": "^1.0.0",
+    "convert-vinyl-to-vfile": "^2.0.0",
     "gulp-util": "^3.0.7",
     "through2": "^2.0.1",
-    "unified-engine": "^3.0.2",
+    "unified-engine": "^4.0.0",
     "xtend": "^4.0.1"
   },
   "devDependencies": {

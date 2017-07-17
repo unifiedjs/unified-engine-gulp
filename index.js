@@ -1,6 +1,5 @@
 'use strict';
 
-/* Dependencies. */
 var PassThrough = require('stream').PassThrough;
 var engine = require('unified-engine');
 var xtend = require('xtend');
@@ -8,7 +7,6 @@ var PluginError = require('gulp-util').PluginError;
 var through = require('through2');
 var convert = require('convert-vinyl-to-vfile');
 
-/* Expose. */
 module.exports = gulpEngine;
 
 /* Create a Gulp plug-in. */
@@ -54,7 +52,6 @@ function gulpEngine(configuration) {
     /* Patch. */
     fileStream.use = use;
 
-    /* Return. */
     return fileStream;
 
     /* Inject plug-ins. See: https://github.com/unifiedjs/unified-engine. */

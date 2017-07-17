@@ -71,6 +71,8 @@ function buffer(vinyl, opts, callback) {
     streamOut: new PassThrough(),
     files: [vfile]
   }), function (err, status) {
+    var contents;
+
     /* Skip ignored files. */
     if (err && err.message === 'No input') {
       return callback(null, vinyl);
@@ -80,7 +82,16 @@ function buffer(vinyl, opts, callback) {
       return callback(new PluginError(name, err || 'Unsuccessful running'));
     }
 
-    vinyl.contents = new Buffer(String(vfile), 'utf-8');
+    contents = vfile.contents;
+
+    /* istanbul ignore else - There aren’t any unified compilers
+     * that output buffers, but this logic is here to keep allow them
+     * (and binary files) to pass through untouched. */
+    if (typeof contents === 'string') {
+      contents = new Buffer(contents, 'utf8');
+    }
+
+    vinyl.contents = contents;
 
     callback(null, vinyl);
   });

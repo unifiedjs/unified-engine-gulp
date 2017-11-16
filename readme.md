@@ -137,7 +137,7 @@ Treat warnings as errors (`boolean`, default: `false`).
 
 `fileStream` — A standard [`through2`][through2] object stream,
 accepting Vinyl files.  Streaming vinyl files are not supported.
-Read more about why in [Gulp’s docs (point 9)][streaming].
+Read more about why in [Gulp’s docs (point 10)][streaming].
 
 There’s also a `fileStream.use()` function, which mimics
 [`unified.use()`][use] in that it accepts a plug-in and configuration.

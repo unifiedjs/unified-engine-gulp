@@ -73,11 +73,6 @@ function buffer(vinyl, opts, callback) {
   }), function (err, status) {
     var contents;
 
-    /* Skip ignored files. */
-    if (err && err.message === 'No input') {
-      return callback(null, vinyl);
-    }
-
     if (err || status) {
       return callback(new PluginError(name, err || 'Unsuccessful running'));
     }

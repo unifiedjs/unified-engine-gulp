@@ -143,6 +143,14 @@ There’s also a `fileStream.use()` function, which mimics
 [`unified.use()`][use] in that it accepts a plug-in and configuration.
 It returns the operated on `fileStream`.
 
+## Contribute
+
+See [`contribute.md` in `unifiedjs/unified`][contribute] for ways to get
+started.
+
+This organisation has a [Code of Conduct][coc].  By interacting with this
+repository, organisation, or community you agree to abide by its terms.
+
 ## License
 
 [MIT][license] © [Titus Wormer][author]
@@ -214,3 +222,7 @@ It returns the operated on `fileStream`.
 [streaming]: https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md
 
 [use]: https://github.com/unifiedjs/unified#processoruseplugin-options
+
+[contribute]: https://github.com/unifiedjs/unified/blob/master/contributing.md
+
+[coc]: https://github.com/unifiedjs/unified/blob/master/code-of-conduct.md

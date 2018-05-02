@@ -83,7 +83,7 @@ function buffer(vinyl, opts, callback) {
      * that output buffers, but this logic is here to keep allow them
      * (and binary files) to pass through untouched. */
     if (typeof contents === 'string') {
-      contents = new Buffer(contents, 'utf8');
+      contents = Buffer.from(contents, 'utf8');
     }
 
     vinyl.contents = contents;

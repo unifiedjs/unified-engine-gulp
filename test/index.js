@@ -106,7 +106,7 @@ test('unified-engine-gulp', function (t) {
       })
       .write(new File({
         path: 'readme.md',
-        contents: new Buffer(input)
+        contents: Buffer.from(input)
       }));
   });
 
@@ -127,7 +127,7 @@ test('unified-engine-gulp', function (t) {
       })
       .write(new File({
         path: 'ignored.md',
-        contents: new Buffer(input)
+        contents: Buffer.from(input)
       }));
   });
 
@@ -145,7 +145,7 @@ test('unified-engine-gulp', function (t) {
       })
       .write(new File({
         path: 'readme.md',
-        contents: new Buffer(input)
+        contents: Buffer.from(input)
       }));
   });
 
@@ -163,7 +163,7 @@ test('unified-engine-gulp', function (t) {
       })
       .write(new File({
         path: 'readme.md',
-        contents: new Buffer(input)
+        contents: Buffer.from(input)
       }));
   });
 
@@ -189,7 +189,7 @@ test('unified-engine-gulp', function (t) {
       })
       .write(new File({
         path: 'readme.md',
-        contents: new Buffer(input)
+        contents: Buffer.from(input)
       }));
   });
 });

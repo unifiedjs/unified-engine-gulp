@@ -15,7 +15,7 @@ npm install unified-engine-gulp
 ## Usage
 
 ```js
-var engine = require('unified-engine-gulp');
+var engine = require('unified-engine-gulp')
 
 module.exports = engine({
   name: 'gulp-remark',
@@ -24,7 +24,7 @@ module.exports = engine({
   packageField: 'remarkConfig',
   ignoreName: '.remarkignore',
   pluginPrefix: 'remark'
-});
+})
 ```
 
 ## API

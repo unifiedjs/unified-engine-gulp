@@ -1,4 +1,4 @@
-var engine = require('..');
+var engine = require('..')
 
 module.exports = engine({
   name: 'gulp-example',
@@ -7,4 +7,4 @@ module.exports = engine({
   packageField: 'remarkConfig',
   ignoreName: '.remarkignore',
   pluginPrefix: 'remark'
-});
+})

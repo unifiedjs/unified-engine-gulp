@@ -1,15 +1,13 @@
 'use strict'
 
 var PassThrough = require('stream').PassThrough
-var util = require('gulp-util')
+var PluginError = require('plugin-error')
+var File = require('vinyl')
 var test = require('tape')
 var html = require('remark-html')
 var engine = require('..')
 var example = require('./example')
 var spy = require('./spy')
-
-var File = util.File
-var PluginError = util.PluginError
 
 var input = ['# h1', '', '', '## h2', ''].join('\n')
 

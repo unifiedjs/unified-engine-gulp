@@ -3,7 +3,7 @@
 var PassThrough = require('stream').PassThrough
 var engine = require('unified-engine')
 var xtend = require('xtend')
-var PluginError = require('gulp-util').PluginError
+var PluginError = require('plugin-error')
 var through = require('through2')
 var convert = require('convert-vinyl-to-vfile')
 

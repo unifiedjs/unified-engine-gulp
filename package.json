@@ -1,11 +1,15 @@
 {
   "name": "unified-engine-gulp",
   "version": "6.1.0",
-  "description": "Create Gulp plug-ins for unified processors",
+  "description": "unified engine to create a Gulp plugin from a processor",
   "license": "MIT",
   "keywords": [
-    "gulp",
     "unified",
+    "engine",
+    "remark",
+    "rehype",
+    "retext",
+    "gulp",
     "processor"
   ],
   "repository": "unifiedjs/unified-engine-gulp",
@@ -51,7 +55,10 @@
   },
   "xo": {
     "prettier": true,
-    "esnext": false
+    "esnext": false,
+    "rules": {
+      "unicorn/prefer-starts-ends-with": "off"
+    }
   },
   "nyc": {
     "check-coverage": true,

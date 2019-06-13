@@ -1,18 +1,25 @@
-# unified-engine-gulp [![Build Status][travis-badge]][travis]
+# unified-engine-gulp
 
-Interface for creating [Gulp plug-in][info]s around
-[**unified**][unified] processors.  Wrapper around the
-[**engine**][engine] to run it from Gulp.
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Sponsors][sponsors-badge]][collective]
+[![Backers][backers-badge]][collective]
+[![Chat][chat-badge]][chat]
 
-## Installation
+[**unified**][unified] engine to create a [Gulp][] [plugin][] from a
+[processor][].
+Wrapper around [`unifiedjs/unified-engine`][engine].
+
+## Install
 
 [npm][]:
 
-```bash
+```sh
 npm install unified-engine-gulp
 ```
 
-## Usage
+## Use
 
 ```js
 var engine = require('unified-engine-gulp')
@@ -31,16 +38,17 @@ module.exports = engine({
 
 ### `engine(options)`
 
-Create a gulp plug-in.  Read more about [creating Gulp plug-ins »][info].
+Create a [Gulp][] [plugin][] from a [processor][].
+Read more about [creating Gulp plugins »][plugin].
 
 ##### `options`
 
-Anything not set in `options`, but in the below list, can be set later
-by users of the plug-in.
+Anything not set in `options`, but in the below list, can be set later by users
+of the plugin.
 
 ###### `options.name` (`string`, required)
 
-Name of Gulp plug-in (used in errors).
+Name of Gulp plugin (used in errors).
 
 ###### [`options.processor`][processor]
 
@@ -64,6 +72,11 @@ Whether to treat input as a syntax tree (`boolean`, default: `tree`).
 ###### [`options.treeOut`][tree-out]
 
 Whether to treat output as a syntax tree (`boolean`, default: `tree`).
+
+###### [`options.inspect`][inspect]
+
+Skip the compilation phase and output a syntax tree formatted with
+[`unist-util-inspect`][util-inspect] (`boolean`, default: `false`).
 
 ###### [`options.rcName`][rc-name]
 
@@ -109,6 +122,15 @@ Map of plug-in names or paths and options to use (`Object`, optional).
 When given, optional prefix to use when searching for plug-ins (`string`,
 optional).
 
+###### [`options.defaultConfig`][default-config]
+
+Optional object with plugins and/or settings to use if no config file is
+supplied by the user (`Object`, optional).
+
+###### [`options.configTransform`][config-transform]
+
+Transform config files from a different schema (`Function`, optional).
+
 ###### [`options.reporter`][reporter]
 
 Reporter to use (`string` or `function`, default: `require('vfile-reporter')`).
@@ -135,21 +157,24 @@ Treat warnings as errors (`boolean`, default: `false`).
 
 ##### Returns
 
-`fileStream` — A standard [`through2`][through2] object stream,
-accepting Vinyl files.  Streaming vinyl files are not supported.
+A standard [`through2`][through2] object stream, accepting Vinyl files
+(`fileStream`).
+Streaming vinyl files are not supported.
 Read more about why in [Gulp’s docs (point 10)][streaming].
 
-There’s also a `fileStream.use()` function, which mimics
-[`unified.use()`][use] in that it accepts a plug-in and configuration.
+There’s also a `fileStream.use()` function, which mimics [`unified.use()`][use]
+in that it accepts a plugin and configuration.
 It returns the operated on `fileStream`.
 
 ## Contribute
 
-See [`contributing.md` in `unifiedjs/unified`][contributing] for ways to get
-started.
+See [`contributing.md`][contributing] in [`unifiedjs/.github`][health] for ways
+to get started.
+See [`support.md`][support] for ways to get help.
 
-This organisation has a [Code of Conduct][coc].  By interacting with this
-repository, organisation, or community you agree to abide by its terms.
+This project has a [Code of Conduct][coc].
+By interacting with this repository, organisation, or community you agree to
+abide by its terms.
 
 ## License
 
@@ -157,11 +182,37 @@ repository, organisation, or community you agree to abide by its terms.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/unifiedjs/unified-engine-gulp.svg
+[build-badge]: https://img.shields.io/travis/unifiedjs/unified-engine-gulp.svg
 
-[travis]: https://travis-ci.org/unifiedjs/unified-engine-gulp
+[build]: https://travis-ci.org/unifiedjs/unified-engine-gulp
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/unifiedjs/unified-engine-gulp.svg
+
+[coverage]: https://codecov.io/github/unifiedjs/unified-engine-gulp
+
+[downloads-badge]: https://img.shields.io/npm/dm/unified-engine-gulp.svg
+
+[downloads]: https://www.npmjs.com/package/unified-engine-gulp
+
+[sponsors-badge]: https://opencollective.com/unified/sponsors/badge.svg
+
+[backers-badge]: https://opencollective.com/unified/backers/badge.svg
+
+[collective]: https://opencollective.com/unified
+
+[chat-badge]: https://img.shields.io/badge/join%20the%20community-on%20spectrum-7b16ff.svg
+
+[chat]: https://spectrum.chat/unified
 
 [npm]: https://docs.npmjs.com/cli/install
+
+[health]: https://github.com/unifiedjs/.github
+
+[contributing]: https://github.com/unifiedjs/.github/blob/master/contributing.md
+
+[support]: https://github.com/unifiedjs/.github/blob/master/support.md
+
+[coc]: https://github.com/unifiedjs/.github/blob/master/code-of-conduct.md
 
 [license]: license
 
@@ -171,7 +222,9 @@ repository, organisation, or community you agree to abide by its terms.
 
 [engine]: https://github.com/unifiedjs/unified-engine
 
-[info]: https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md
+[gulp]: https://gulpjs.com
+
+[plugin]: https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md
 
 [unified-processor]: https://github.com/unifiedjs/unified#processor
 
@@ -186,6 +239,8 @@ repository, organisation, or community you agree to abide by its terms.
 [tree-in]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionstreein
 
 [tree-out]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionstreeout
+
+[inspect]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsinspect
 
 [rc-name]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsrcname
 
@@ -202,6 +257,10 @@ repository, organisation, or community you agree to abide by its terms.
 [ignore-path]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsignorepath
 
 [plugin-prefix]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionspluginprefix
+
+[default-config]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsdefaultconfig
+
+[config-transform]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsconfigtransform
 
 [plugins]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsplugins
 
@@ -223,6 +282,4 @@ repository, organisation, or community you agree to abide by its terms.
 
 [use]: https://github.com/unifiedjs/unified#processoruseplugin-options
 
-[contributing]: https://github.com/unifiedjs/unified/blob/master/contributing.md
-
-[coc]: https://github.com/unifiedjs/unified/blob/master/code-of-conduct.md
+[util-inspect]: https://github.com/syntax-tree/unist-util-inspect

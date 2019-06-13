@@ -7,11 +7,15 @@ module.exports = spy
 function spy() {
   var stream = new PassThrough()
   var output = []
-  var write
+  var originalWrite = stream.write
 
-  write = stream.write
+  stream.write = write
 
-  stream.write = function(chunk, encoding, callback) {
+  done.stream = stream
+
+  return done
+
+  function write(chunk, encoding, callback) {
     callback = typeof encoding === 'function' ? encoding : callback
 
     if (typeof callback === 'function') {
@@ -22,12 +26,8 @@ function spy() {
   }
 
   function done() {
-    stream.write = write
+    stream.write = originalWrite
 
     return output.join('')
   }
-
-  done.stream = stream
-
-  return done
 }

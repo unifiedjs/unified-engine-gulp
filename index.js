@@ -9,7 +9,7 @@ var convert = require('convert-vinyl-to-vfile')
 
 module.exports = gulpEngine
 
-/* Create a Gulp plug-in. */
+// Create a Gulp plugin.
 function gulpEngine(configuration) {
   var name = (configuration || {}).name
 
@@ -28,7 +28,7 @@ function gulpEngine(configuration) {
       output: false
     })
 
-    /* Prevent some settings from being configured. */
+    // Prevent some settings from being configured.
     config.cwd = undefined
     config.files = undefined
     config.extensions = undefined
@@ -36,10 +36,10 @@ function gulpEngine(configuration) {
     config.streamIn = undefined
     config.streamOut = undefined
 
-    /* Handle virtual files. */
+    // Handle virtual files.
     fileStream = through.obj(transform)
 
-    /* Patch. */
+    // Patch.
     fileStream.use = use
 
     return fileStream
@@ -56,7 +56,8 @@ function gulpEngine(configuration) {
       return callback(null, vinyl)
     }
 
-    /* Inject plug-ins. See: https://github.com/unifiedjs/unified-engine. */
+    // Inject plugins.
+    // See: <https://github.com/unifiedjs/unified-engine>.
     function use() {
       config.plugins.push([].slice.call(arguments))
       return fileStream
@@ -64,14 +65,11 @@ function gulpEngine(configuration) {
   }
 }
 
-/* Handle a vinyl entry with buffer contents. */
+// Handle a vinyl entry with buffer contents.
 function buffer(vinyl, opts, callback) {
   var name = opts.name
   var vfile = convert(vinyl)
-  var config = xtend(opts, {
-    streamOut: new PassThrough(),
-    files: [vfile]
-  })
+  var config = xtend(opts, {streamOut: new PassThrough(), files: [vfile]})
 
   engine(config, oncomplete)
 
@@ -84,9 +82,9 @@ function buffer(vinyl, opts, callback) {
 
     contents = vfile.contents
 
-    /* istanbul ignore else - There aren’t any unified compilers
-     * that output buffers, but this logic is here to keep allow them
-     * (and binary files) to pass through untouched. */
+    /* istanbul ignore else - There aren’t any unified compilers that output
+     * buffers, but this logic is here to allow them (and binary files) to pass
+     * through untouched. */
     if (typeof contents === 'string') {
       contents = Buffer.from(contents, 'utf8')
     }

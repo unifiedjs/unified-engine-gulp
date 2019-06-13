@@ -9,7 +9,7 @@ var engine = require('..')
 var example = require('./example')
 var spy = require('./spy')
 
-var input = ['# h1', '', '', '## h2', ''].join('\n')
+var input = '# h1\n\n\n## h2\n'
 
 var report = [
   'readme.md',
@@ -50,7 +50,6 @@ test('unified-engine-gulp', function(t) {
     example({streamError: stderr.stream})
       .once('data', function(file) {
         st.equal(file.contents, null, 'should pass through nully files')
-
         st.equal(String(stderr()), '', 'should not report')
       })
       .write(new File({path: 'readme.md'}))
@@ -63,15 +62,10 @@ test('unified-engine-gulp', function(t) {
 
     example({streamError: stderr.stream})
       .once('error', function(err) {
-        st.ok(err instanceof PluginError, 'should pass a plug-in error')
+        st.ok(err instanceof PluginError, 'should pass a plugin error')
         st.equal(err.message, 'Streaming not supported')
       })
-      .write(
-        new File({
-          path: 'readme.md',
-          contents: new PassThrough()
-        })
-      )
+      .write(new File({path: 'readme.md', contents: new PassThrough()}))
   })
 
   t.test('buffer', function(st) {
@@ -83,18 +77,13 @@ test('unified-engine-gulp', function(t) {
       .once('data', function(file) {
         st.equal(
           String(file.contents),
-          ['# h1', '', '## h2', ''].join('\n'),
+          '# h1\n\n## h2\n',
           'should work on a buffer'
         )
 
         st.equal(String(stderr()), report, 'should report')
       })
-      .write(
-        new File({
-          path: 'readme.md',
-          contents: Buffer.from(input)
-        })
-      )
+      .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
   })
 
   t.test('ignore files', function(st) {
@@ -105,15 +94,9 @@ test('unified-engine-gulp', function(t) {
     example({streamError: stderr.stream})
       .once('data', function(file) {
         st.equal(String(file.contents), input, 'should not mutate buffer')
-
         st.equal(String(stderr()), '', 'should not report')
       })
-      .write(
-        new File({
-          path: 'ignored.md',
-          contents: Buffer.from(input)
-        })
-      )
+      .write(new File({path: 'ignored.md', contents: Buffer.from(input)}))
   })
 
   t.test('frail mode', function(st) {
@@ -123,17 +106,11 @@ test('unified-engine-gulp', function(t) {
 
     example({frail: true, streamError: stderr.stream})
       .once('error', function(err) {
-        st.ok(err instanceof PluginError, 'should pass a plug-in error')
+        st.ok(err instanceof PluginError, 'should pass a plugin error')
         st.equal(err.message, 'Unsuccessful running')
-
         st.equal(String(stderr()), report, 'should report')
       })
-      .write(
-        new File({
-          path: 'readme.md',
-          contents: Buffer.from(input)
-        })
-      )
+      .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
   })
 
   t.test('error handling', function(st) {
@@ -148,12 +125,7 @@ test('unified-engine-gulp', function(t) {
           'should pass fatal errors'
         )
       })
-      .write(
-        new File({
-          path: 'readme.md',
-          contents: Buffer.from(input)
-        })
-      )
+      .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
   })
 
   t.test('using plugins', function(st) {
@@ -166,17 +138,12 @@ test('unified-engine-gulp', function(t) {
       .once('data', function(file) {
         st.equal(
           String(file.contents),
-          ['<h1 id="h1">h1</h1>', '<h2 id="h2">h2</h2>', ''].join('\n'),
+          '<h1 id="h1">h1</h1>\n<h2 id="h2">h2</h2>\n',
           'should work with a plug-in'
         )
 
         st.equal(String(stderr()), report, 'should report')
       })
-      .write(
-        new File({
-          path: 'readme.md',
-          contents: Buffer.from(input)
-        })
-      )
+      .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
   })
 })

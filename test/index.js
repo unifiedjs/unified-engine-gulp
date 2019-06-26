@@ -5,9 +5,9 @@ var PluginError = require('plugin-error')
 var File = require('vinyl')
 var test = require('tape')
 var html = require('remark-html')
-var engine = require('..')
 var example = require('./example')
 var spy = require('./spy')
+var engine = require('..')
 
 var input = '# h1\n\n\n## h2\n'
 

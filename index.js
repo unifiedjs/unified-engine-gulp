@@ -21,19 +21,18 @@ function gulpEngine(configuration) {
   function plugin(options) {
     var fileStream
     var config = Object.assign({}, options, configuration, {
+      // Prevent some settings from being configured.
       plugins: [],
       silentlyIgnore: true,
       alwaysStringify: true,
-      output: false
+      output: false,
+      cwd: undefined,
+      files: undefined,
+      extensions: undefined,
+      out: undefined,
+      streamIn: undefined,
+      streamOut: undefined
     })
-
-    // Prevent some settings from being configured.
-    config.cwd = undefined
-    config.files = undefined
-    config.extensions = undefined
-    config.out = undefined
-    config.streamIn = undefined
-    config.streamOut = undefined
 
     // Handle virtual files.
     fileStream = through.obj(transform)

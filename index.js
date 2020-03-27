@@ -66,10 +66,10 @@ function gulpEngine(configuration) {
 }
 
 // Handle a vinyl entry with buffer contents.
-function buffer(vinyl, opts, callback) {
-  var name = opts.name
+function buffer(vinyl, options, callback) {
+  var name = options.name
   var vfile = convert(vinyl)
-  var config = xtend(opts, {streamOut: new PassThrough(), files: [vfile]})
+  var config = xtend(options, {streamOut: new PassThrough(), files: [vfile]})
 
   engine(config, oncomplete)
 

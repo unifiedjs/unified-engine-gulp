@@ -2,7 +2,6 @@
 
 var PassThrough = require('stream').PassThrough
 var engine = require('unified-engine')
-var xtend = require('xtend')
 var PluginError = require('plugin-error')
 var through = require('through2')
 var convert = require('convert-vinyl-to-vfile')
@@ -21,7 +20,7 @@ function gulpEngine(configuration) {
 
   function plugin(options) {
     var fileStream
-    var config = xtend(options, configuration, {
+    var config = Object.assign({}, options, configuration, {
       plugins: [],
       silentlyIgnore: true,
       alwaysStringify: true,
@@ -69,7 +68,10 @@ function gulpEngine(configuration) {
 function buffer(vinyl, options, callback) {
   var name = options.name
   var vfile = convert(vinyl)
-  var config = xtend(options, {streamOut: new PassThrough(), files: [vfile]})
+  var config = Object.assign({}, options, {
+    streamOut: new PassThrough(),
+    files: [vfile]
+  })
 
   engine(config, oncomplete)
 

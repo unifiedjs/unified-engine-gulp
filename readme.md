@@ -113,6 +113,16 @@ is given).
 
 File-path to an ignore file to load (`string`, optional).
 
+###### [`options.ignorePathResolveFrom`][ignore-path-resolve-from]
+
+Whether to resolve patterns in `ignorePath` relative to its directory or the
+current working directory  (`'dir'` or `'cwd'`, default: `'dir'`).
+
+###### [`options.ignorePatterns`][ignore-patterns]
+
+Extra patterns to ignore in combination with `ignorePath` or found ignores
+(`Array.<string>`, optional).
+
 ###### [`options.plugins`][plugins]
 
 Map of plug-in names or paths and options to use (`Object`, optional).
@@ -255,6 +265,10 @@ abide by its terms.
 [ignore-name]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsignorename
 
 [ignore-path]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsignorepath
+
+[ignore-path-resolve-from]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsignorepathresolvefrom
+
+[ignore-patterns]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionsignorepatterns
 
 [plugin-prefix]: https://github.com/unifiedjs/unified-engine/blob/master/doc/options.md#optionspluginprefix
 

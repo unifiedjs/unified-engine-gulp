@@ -39,7 +39,7 @@ module.exports = engine({
 ### `engine(options)`
 
 Create a [Gulp][] [plugin][] from a [processor][].
-Read more about [creating Gulp plugins »][plugin].
+Read more about [writing a Gulp plugin »][plugin].
 
 ##### `options`
 
@@ -234,7 +234,7 @@ abide by its terms.
 
 [gulp]: https://gulpjs.com
 
-[plugin]: https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/guidelines.md
+[plugin]: https://github.com/gulpjs/gulp/blob/master/docs/writing-a-plugin/README.md
 
 [unified-processor]: https://github.com/unifiedjs/unified#processor
 

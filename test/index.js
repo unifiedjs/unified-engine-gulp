@@ -50,7 +50,7 @@ test('unified-engine-gulp', function (t) {
 
     example({streamError: stderr.stream})
       .once('data', function (file) {
-        st.equal(file.contents, null, 'should pass through nully files')
+        st.equal(file.contents, null, 'should pass through nullish files')
         st.equal(String(stderr()), '', 'should not report')
       })
       .write(new File({path: 'readme.md'}))

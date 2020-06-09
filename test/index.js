@@ -21,7 +21,7 @@ var report = [
 ].join('\n')
 
 test('unified-engine-gulp', function (t) {
-  t.plan(8)
+  t.plan(9)
 
   t.test('configuring', function (st) {
     st.throws(
@@ -147,5 +147,30 @@ test('unified-engine-gulp', function (t) {
         st.equal(String(stderr()), report, 'should report')
       })
       .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
+  })
+
+  t.test('custom data', function (st) {
+    var stderr = spy()
+
+    st.plan(1)
+
+    function customData() {
+      return function (tree, file) {
+        file.data.value = 'changed'
+      }
+    }
+
+    example({streamError: stderr.stream})
+      .use(customData)
+      .once('data', function (file) {
+        st.equal(file.data.value, 'changed')
+      })
+      .write(
+        new File({
+          path: 'readme.md',
+          contents: Buffer.from(input),
+          data: {value: 'original'}
+        })
+      )
   })
 })

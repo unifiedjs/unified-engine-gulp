@@ -91,6 +91,7 @@ function buffer(vinyl, options, callback) {
     }
 
     vinyl.contents = contents
+    vinyl.data = vfile.data
 
     callback(null, vinyl)
   }

@@ -154,12 +154,6 @@ test('unified-engine-gulp', function (t) {
 
     st.plan(1)
 
-    function customData() {
-      return function (tree, file) {
-        file.data.value = 'changed'
-      }
-    }
-
     example({streamError: stderr.stream})
       .use(customData)
       .once('data', function (file) {
@@ -172,5 +166,11 @@ test('unified-engine-gulp', function (t) {
           data: {value: 'original'}
         })
       )
+
+    function customData() {
+      return function (tree, file) {
+        file.data.value = 'changed'
+      }
+    }
   })
 })

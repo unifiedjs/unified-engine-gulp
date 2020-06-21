@@ -26,11 +26,11 @@
     "index.js"
   ],
   "dependencies": {
-    "convert-vinyl-to-vfile": "^2.1.2",
+    "convert-vinyl-to-vfile": "^3.0.0",
     "plugin-error": "^1.0.0",
     "through2": "^3.0.0",
     "unified-engine": "^8.0.0",
-    "vinyl": "^2.2.0"
+    "vinyl": "^2.0.0"
   },
   "devDependencies": {
     "nyc": "^15.0.0",

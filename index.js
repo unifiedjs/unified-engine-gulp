@@ -1,15 +1,11 @@
-'use strict'
-
-var PassThrough = require('stream').PassThrough
-var engine = require('unified-engine')
-var PluginError = require('plugin-error')
-var through = require('through2')
-var convert = require('convert-vinyl-to-vfile')
-
-module.exports = gulpEngine
+import {PassThrough} from 'stream'
+import engine from 'unified-engine'
+import PluginError from 'plugin-error'
+import through from 'through2'
+import convert from 'convert-vinyl-to-vfile'
 
 // Create a Gulp plugin.
-function gulpEngine(configuration) {
+export function gulpEngine(configuration) {
   var name = (configuration || {}).name
 
   if (!name) {

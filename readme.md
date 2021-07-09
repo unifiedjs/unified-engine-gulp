@@ -13,6 +13,9 @@ Wrapper around [`unifiedjs/unified-engine`][engine].
 
 ## Install
 
+This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
+Node 12+ is needed to use it and it must be `import`ed instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -22,11 +25,12 @@ npm install unified-engine-gulp
 ## Use
 
 ```js
-var engine = require('unified-engine-gulp')
+import {engineGulp} from 'unified-engine-gulp'
+import {remark} from 'remark'
 
-module.exports = engine({
+export const gulpRemark = engineGulp({
   name: 'gulp-remark',
-  processor: require('remark'),
+  processor: remark,
   rcName: '.remarkrc',
   packageField: 'remarkConfig',
   ignoreName: '.remarkignore',
@@ -36,7 +40,10 @@ module.exports = engine({
 
 ## API
 
-### `engine(options)`
+This package exports the following identifiers: `engineGulp`.
+There is no default export.
+
+### `engineGulp(options)`
 
 Create a [Gulp][] [plugin][] from a [processor][].
 Read more about [writing a Gulp plugin »][plugin].

@@ -1,8 +1,9 @@
-var engine = require('..')
+import remark from 'remark'
+import {gulpEngine} from '../index.js'
 
-module.exports = engine({
+export const example = gulpEngine({
   name: 'gulp-example',
-  processor: require('../node_modules/remark/index.js'),
+  processor: remark,
   rcName: '.remarkrc',
   packageField: 'remarkConfig',
   ignoreName: '.remarkignore',

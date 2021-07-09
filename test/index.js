@@ -1,14 +1,12 @@
-'use strict'
-
-var PassThrough = require('stream').PassThrough
-var PluginError = require('plugin-error')
-var File = require('vinyl')
-var test = require('tape')
-var slug = require('remark-slug')
-var html = require('remark-html')
-var example = require('./example.js')
-var spy = require('./spy.js')
-var engine = require('..')
+import {PassThrough} from 'stream'
+import PluginError from 'plugin-error'
+import File from 'vinyl'
+import test from 'tape'
+import remarkSlug from 'remark-slug'
+import remarkHtml from 'remark-html'
+import {example} from './example.js'
+import {spy} from './spy.js'
+import {gulpEngine} from '../index.js'
 
 var input = '# h1\n\n\n## h2\n'
 
@@ -26,7 +24,7 @@ test('unified-engine-gulp', function (t) {
   t.test('configuring', function (st) {
     st.throws(
       function () {
-        engine()
+        gulpEngine()
       },
       /^Error: Expected `name` in `configuration`$/,
       'should throw without configuration'
@@ -34,7 +32,7 @@ test('unified-engine-gulp', function (t) {
 
     st.throws(
       function () {
-        engine({})
+        gulpEngine({})
       },
       /^Error: Expected `name` in `configuration`$/,
       'should throw without name in configuration'
@@ -137,8 +135,8 @@ test('unified-engine-gulp', function (t) {
     st.plan(2)
 
     example({streamError: stderr.stream})
-      .use(slug)
-      .use(html)
+      .use(remarkSlug)
+      .use(remarkHtml)
       .once('data', function (file) {
         st.equal(
           String(file.contents),

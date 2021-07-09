@@ -6,8 +6,8 @@ var File = require('vinyl')
 var test = require('tape')
 var slug = require('remark-slug')
 var html = require('remark-html')
-var example = require('./example')
-var spy = require('./spy')
+var example = require('./example.js')
+var spy = require('./spy.js')
 var engine = require('..')
 
 var input = '# h1\n\n\n## h2\n'
@@ -62,9 +62,9 @@ test('unified-engine-gulp', function (t) {
     st.plan(2)
 
     example({streamError: stderr.stream})
-      .once('error', function (err) {
-        st.ok(err instanceof PluginError, 'should pass a plugin error')
-        st.equal(err.message, 'Streaming not supported')
+      .once('error', function (error) {
+        st.ok(error instanceof PluginError, 'should pass a plugin error')
+        st.equal(error.message, 'Streaming not supported')
       })
       .write(new File({path: 'readme.md', contents: new PassThrough()}))
   })
@@ -106,9 +106,9 @@ test('unified-engine-gulp', function (t) {
     st.plan(3)
 
     example({frail: true, streamError: stderr.stream})
-      .once('error', function (err) {
-        st.ok(err instanceof PluginError, 'should pass a plugin error')
-        st.equal(err.message, 'Unsuccessful running')
+      .once('error', function (error) {
+        st.ok(error instanceof PluginError, 'should pass a plugin error')
+        st.equal(error.message, 'Unsuccessful running')
         st.equal(String(stderr()), report, 'should report')
       })
       .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
@@ -120,9 +120,11 @@ test('unified-engine-gulp', function (t) {
     st.plan(1)
 
     example({filePath: '!', streamError: stderr.stream})
-      .once('error', function (err) {
+      .once('error', function (error) {
         st.ok(
-          /^Do not pass both `--file-path` and real files/.test(err.message),
+          error.message.startsWith(
+            'Do not pass both `--file-path` and real files'
+          ),
           'should pass fatal errors'
         )
       })

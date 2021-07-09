@@ -41,10 +41,10 @@
     "remark-preset-wooorm": "^8.0.0",
     "remark-slug": "^6.0.0",
     "tape": "^5.0.0",
-    "xo": "^0.36.0"
+    "xo": "^0.38.0"
   },
   "scripts": {
-    "format": "remark . -qfo && prettier . --write && xo --fix",
+    "format": "remark . -qfo && prettier . -w --loglevel warn && xo --fix",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test",
     "test": "npm run format && npm run test-coverage"

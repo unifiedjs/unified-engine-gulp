@@ -74,11 +74,11 @@ function buffer(vinyl, options, callback) {
 
   engine(config, oncomplete)
 
-  function oncomplete(err, status) {
+  function oncomplete(error, status) {
     var contents
 
-    if (err || status) {
-      return callback(new PluginError(name, err || 'Unsuccessful running'))
+    if (error || status) {
+      return callback(new PluginError(name, error || 'Unsuccessful running'))
     }
 
     contents = vfile.contents

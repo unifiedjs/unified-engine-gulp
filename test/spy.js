@@ -1,9 +1,9 @@
 import {PassThrough} from 'stream'
 
 export function spy() {
-  var stream = new PassThrough()
-  var output = []
-  var originalWrite = stream.write
+  const stream = new PassThrough()
+  const output = []
+  const originalWrite = stream.write
 
   stream.write = write
 

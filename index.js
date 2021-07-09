@@ -6,7 +6,7 @@ import convert from 'convert-vinyl-to-vfile'
 
 // Create a Gulp plugin.
 export function gulpEngine(configuration) {
-  var name = (configuration || {}).name
+  const name = (configuration || {}).name
 
   if (!name) {
     throw new Error('Expected `name` in `configuration`')
@@ -15,8 +15,7 @@ export function gulpEngine(configuration) {
   return plugin
 
   function plugin(options) {
-    var fileStream
-    var config = Object.assign({}, options, configuration, {
+    const config = Object.assign({}, options, configuration, {
       // Prevent some settings from being configured.
       plugins: [],
       silentlyIgnore: true,
@@ -31,7 +30,7 @@ export function gulpEngine(configuration) {
     })
 
     // Handle virtual files.
-    fileStream = through.obj(transform)
+    const fileStream = through.obj(transform)
 
     // Patch.
     fileStream.use = use
@@ -61,9 +60,9 @@ export function gulpEngine(configuration) {
 
 // Handle a vinyl entry with buffer contents.
 function buffer(vinyl, options, callback) {
-  var name = options.name
-  var vfile = convert(vinyl)
-  var config = Object.assign({}, options, {
+  const name = options.name
+  const vfile = convert(vinyl)
+  const config = Object.assign({}, options, {
     streamOut: new PassThrough(),
     files: [vfile]
   })
@@ -71,7 +70,7 @@ function buffer(vinyl, options, callback) {
   engine(config, oncomplete)
 
   function oncomplete(error, status) {
-    var contents
+    let contents
 
     if (error || status) {
       return callback(new PluginError(name, error || 'Unsuccessful running'))

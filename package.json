@@ -1,6 +1,6 @@
 {
   "name": "unified-engine-gulp",
-  "version": "8.2.0",
+  "version": "9.0.0",
   "description": "unified engine to create a Gulp plugin from a processor",
   "license": "MIT",
   "keywords": [

@@ -1,7 +1,13 @@
+/**
+ * @typedef {import('unified').Transformer} Transformer
+ * @typedef {import('vinyl')} Vinyl
+ */
+
 import {PassThrough} from 'stream'
 import PluginError from 'plugin-error'
 import File from 'vinyl'
 import test from 'tape'
+// @ts-expect-error: next.
 import remarkSlug from 'remark-slug'
 import remarkHtml from 'remark-html'
 import {example} from './example.js'
@@ -24,6 +30,7 @@ test('unified-engine-gulp', (t) => {
   t.test('configuring', (st) => {
     st.throws(
       () => {
+        // @ts-expect-error: runtime.
         gulpEngine()
       },
       /^Error: Expected `name` in `configuration`$/,
@@ -32,6 +39,7 @@ test('unified-engine-gulp', (t) => {
 
     st.throws(
       () => {
+        // @ts-expect-error: runtime.
         gulpEngine({})
       },
       /^Error: Expected `name` in `configuration`$/,
@@ -47,7 +55,7 @@ test('unified-engine-gulp', (t) => {
     st.plan(2)
 
     example({streamError: stderr.stream})
-      .once('data', (file) => {
+      .once('data', (/** @type {Vinyl} */ file) => {
         st.equal(file.contents, null, 'should pass through nullish files')
         st.equal(String(stderr()), '', 'should not report')
       })
@@ -73,7 +81,7 @@ test('unified-engine-gulp', (t) => {
     st.plan(2)
 
     example({streamError: stderr.stream})
-      .once('data', (file) => {
+      .once('data', (/** @type {Vinyl} */ file) => {
         st.equal(
           String(file.contents),
           '# h1\n\n## h2\n',
@@ -91,7 +99,7 @@ test('unified-engine-gulp', (t) => {
     st.plan(2)
 
     example({streamError: stderr.stream})
-      .once('data', (file) => {
+      .once('data', (/** @type {Vinyl} */ file) => {
         st.equal(String(file.contents), input, 'should not mutate buffer')
         st.equal(String(stderr()), '', 'should not report')
       })
@@ -137,7 +145,7 @@ test('unified-engine-gulp', (t) => {
     example({streamError: stderr.stream})
       .use(remarkSlug)
       .use(remarkHtml)
-      .once('data', (file) => {
+      .once('data', (/** @type {Vinyl} */ file) => {
         st.equal(
           String(file.contents),
           '<h1 id="h1">h1</h1>\n<h2 id="h2">h2</h2>\n',
@@ -155,8 +163,16 @@ test('unified-engine-gulp', (t) => {
     st.plan(1)
 
     example({streamError: stderr.stream})
-      .use(customData)
-      .once('data', (file) => {
+      .use(() => {
+        /** @type {Transformer} */
+        return function (_, file) {
+          // @ts-expect-error: fine.
+          file.data.value = 'changed'
+        }
+      })
+      .once('data', (/** @type {Vinyl} */ file) => {
+        // Coverage.
+        // type-coverage:ignore-next-line
         st.equal(file.data.value, 'changed')
       })
       .write(
@@ -166,11 +182,5 @@ test('unified-engine-gulp', (t) => {
           data: {value: 'original'}
         })
       )
-
-    function customData() {
-      return function (tree, file) {
-        file.data.value = 'changed'
-      }
-    }
   })
 })

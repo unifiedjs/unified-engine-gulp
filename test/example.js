@@ -3,7 +3,7 @@ import {gulpEngine} from '../index.js'
 
 export const example = gulpEngine({
   name: 'gulp-example',
-  processor: remark,
+  processor: remark(),
   rcName: '.remarkrc',
   packageField: 'remarkConfig',
   ignoreName: '.remarkignore',

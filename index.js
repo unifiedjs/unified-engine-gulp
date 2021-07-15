@@ -1,3 +1,12 @@
+/**
+ * @typedef {import('unified-engine').Options} EngineOptions
+ * @typedef {import('vfile').VFileOptions} VFileOptions
+ * @typedef {import('stream').Transform} Transform
+ *
+ * @typedef {EngineOptions & {name: string}} Options
+ * @typedef {Transform & {use: (...values: unknown[]) => FileStream}} FileStream
+ */
+
 import {PassThrough} from 'stream'
 import PluginError from 'plugin-error'
 import through from 'through2'
@@ -19,7 +28,11 @@ export function gulpEngine(configuration) {
 
   return plugin
 
+  /**
+   * @param {Partial<Options>} options
+   */
   function plugin(options) {
+    /** @type {Options} */
     const config = Object.assign({}, options, configuration, {
       // Prevent some settings from being configured.
       plugins: [],
@@ -35,16 +48,24 @@ export function gulpEngine(configuration) {
     })
 
     // Handle virtual files.
-    const fileStream = through.obj(transform)
-
-    // Patch.
-    fileStream.use = use
+    /** @type {FileStream} */
+    const fileStream = Object.assign(through.obj(transform), {use})
 
     return fileStream
 
-    function transform(vinyl, encoding, callback) {
+    /**
+     * Handle a vinyl entry with buffer contents.
+     *
+     * @param {Vinyl} vinyl
+     * @param {unknown} _
+     * @param {(error: PluginError|null, file?: Vinyl) => void} callback
+     * @returns {void}
+     */
+    function transform(vinyl, _, callback) {
       if (vinyl.isStream()) {
-        return callback(new PluginError(name, 'Streaming not supported'))
+        return callback(
+          new PluginError(configuration.name, 'Streaming not supported')
+        )
       }
 
       if (vinyl.isBuffer()) {

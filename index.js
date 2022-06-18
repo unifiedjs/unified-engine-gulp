@@ -3,7 +3,7 @@
  * @typedef {import('stream').Transform} Transform
  *
  * @typedef {EngineOptions & {name: string}} Options
- * @typedef {Transform & {use: (...values: unknown[]) => FileStream}} FileStream
+ * @typedef {Transform & {use: (...values: Array<unknown>) => FileStream}} FileStream
  */
 
 import {Buffer} from 'node:buffer'
@@ -78,7 +78,7 @@ export function gulpEngine(configuration) {
     // Inject plugins.
     // See: <https://github.com/unifiedjs/unified-engine>.
     /**
-     * @param {unknown[]} thing
+     * @param {Array<unknown>} thing
      * @returns {FileStream}
      */
     function use(...thing) {

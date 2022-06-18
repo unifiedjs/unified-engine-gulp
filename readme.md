@@ -7,16 +7,39 @@
 [![Backers][backers-badge]][collective]
 [![Chat][chat-badge]][chat]
 
-[**unified**][unified] engine to create a [Gulp][] [plugin][] from a
-[processor][].
-Wrapper around [`unifiedjs/unified-engine`][engine].
+**[unified][]** engine to create a [Gulp][] plugin from a unified
+processor.
+
+## Contents
+
+*   [What is this?](#what-is-this)
+*   [When should I use this?](#when-should-i-use-this)
+*   [Install](#install)
+*   [Use](#use)
+*   [API](#api)
+    *   [`engineGulp(options)`](#enginegulpoptions)
+*   [Debugging](#debugging)
+*   [Types](#types)
+*   [Compatibility](#compatibility)
+*   [Security](#security)
+*   [Contribute](#contribute)
+*   [License](#license)
+
+## What is this?
+
+This package wraps [`unified-engine`][unified-engine] so that it can be used
+to create a Gulp plugin.
+It’s what you use underneath when you use [`gulp-remark`][gulp-remark].
+
+## When should I use this?
+
+You can use this to let users process files from a gulp plugin, letting them
+configure from the file system.
 
 ## Install
 
-This package is [ESM only](https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c):
-Node 14+ is needed to use it and it must be `import`ed instead of `require`d.
-
-[npm][]:
+This package is [ESM only][esm].
+In Node.js (version 14.14+, 16.0+, or 18.0+), install with [npm][]:
 
 ```sh
 npm install unified-engine-gulp
@@ -40,18 +63,19 @@ export const gulpRemark = engineGulp({
 
 ## API
 
-This package exports the following identifiers: `engineGulp`.
+This package exports the identifier `engineGulp`.
 There is no default export.
 
 ### `engineGulp(options)`
 
-Create a [Gulp][] [plugin][] from a [processor][].
-Read more about [writing a Gulp plugin »][plugin].
+Create a [Gulp][] plugin from a unified processor.
+
+> 👉 **Note**: see [writing a Gulp plugin][plugin] for more info.
 
 ##### `options`
 
-Anything not set in `options`, but in the below list, can be set later by users
-of the plugin.
+Anything not passed in `options`, but in the below list, can be set later by
+users of the plugin.
 
 ###### `options.name` (`string`, required)
 
@@ -59,7 +83,7 @@ Name of Gulp plugin (used in errors).
 
 ###### [`options.processor`][processor]
 
-Unified processor to transform files ([`Processor`][unified-processor],
+Processor to inspect and transform files ([`Processor`][unified-processor],
 required).
 
 ###### [`options.streamError`][stream-error]
@@ -83,7 +107,7 @@ Whether to treat output as a syntax tree (`boolean`, default: `tree`).
 ###### [`options.inspect`][inspect]
 
 Skip the compilation phase and output a syntax tree formatted with
-[`unist-util-inspect`][util-inspect] (`boolean`, default: `false`).
+[`unist-util-inspect`][unist-util-inspect] (`boolean`, default: `false`).
 
 ###### [`options.rcName`][rc-name]
 
@@ -91,7 +115,7 @@ Name of configuration files to load (`string`, optional).
 
 ###### [`options.packageField`][package-field]
 
-Property at which configuration can be found in `package.json`
+Field at which configuration can be found in `package.json`
 files (`string`, optional).
 
 ###### [`options.detectConfig`][detect-config]
@@ -128,7 +152,7 @@ current working directory  (`'dir'` or `'cwd'`, default: `'dir'`).
 ###### [`options.ignorePatterns`][ignore-patterns]
 
 Extra patterns to ignore in combination with `ignorePath` or found ignores
-(`Array.<string>`, optional).
+(`Array<string>`, optional).
 
 ###### [`options.plugins`][plugins]
 
@@ -174,14 +198,38 @@ Treat warnings as errors (`boolean`, default: `false`).
 
 ##### Returns
 
-A standard [`through2`][through2] object stream, accepting Vinyl files
-(`fileStream`).
+An [`through2`][through2] object stream, accepting Vinyl files (`fileStream`).
 Streaming vinyl files are not supported.
 Read more about why in [Gulp’s docs (point 10)][streaming].
 
-There’s also a `fileStream.use()` function, which mimics [`unified.use()`][use]
-in that it accepts a plugin and configuration.
+There’s also a `fileStream.use()` function, which is like
+[`unified.use()`][use], in that it accepts a plugin and configuration.
 It returns the operated on `fileStream`.
+
+## Debugging
+
+The engine can be debugged by setting the [`DEBUG`][debug] environment variable
+to `*`, such as `DEBUG="*" gulp …`.
+
+## Types
+
+This package is fully typed with [TypeScript][].
+It export the additional types `Options` and `FileStream`.
+
+## Compatibility
+
+Projects maintained by the unified collective are compatible with all maintained
+versions of Node.js.
+As of now, that is Node.js 14.14+, 16.0+, and 18.0+.
+Our projects sometimes work with older versions, but this is not guaranteed.
+
+## Security
+
+`unified-engine-gulp` loads and evaluates configuration files, plugins, and
+presets from the file system (often from `node_modules/`).
+That means code that is on your file system runs.
+Make sure you trust the workspace where you run `unified-engine-gulp` and be
+careful with packages from npm and changes made by contributors.
 
 ## Contribute
 
@@ -223,13 +271,17 @@ abide by its terms.
 
 [npm]: https://docs.npmjs.com/cli/install
 
+[esm]: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
+[typescript]: https://www.typescriptlang.org
+
 [health]: https://github.com/unifiedjs/.github
 
-[contributing]: https://github.com/unifiedjs/.github/blob/HEAD/contributing.md
+[contributing]: https://github.com/unifiedjs/.github/blob/main/contributing.md
 
-[support]: https://github.com/unifiedjs/.github/blob/HEAD/support.md
+[support]: https://github.com/unifiedjs/.github/blob/main/support.md
 
-[coc]: https://github.com/unifiedjs/.github/blob/HEAD/code-of-conduct.md
+[coc]: https://github.com/unifiedjs/.github/blob/main/code-of-conduct.md
 
 [license]: license
 
@@ -237,70 +289,74 @@ abide by its terms.
 
 [unified]: https://github.com/unifiedjs/unified
 
-[engine]: https://github.com/unifiedjs/unified-engine
+[unified-processor]: https://github.com/unifiedjs/unified#processor
+
+[use]: https://github.com/unifiedjs/unified#processoruseplugin-options
+
+[processor]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsprocessor
+
+[unified-engine]: https://github.com/unifiedjs/unified-engine
+
+[detect-config]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsdetectconfig
+
+[stream-error]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsstreamerror
+
+[tree]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionstree
+
+[tree-in]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionstreein
+
+[tree-out]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionstreeout
+
+[inspect]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsinspect
+
+[rc-name]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsrcname
+
+[package-field]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionspackagefield
+
+[rc-path]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsrcpath
+
+[settings]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionssettings
+
+[detect-ignore]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsdetectignore
+
+[ignore-name]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsignorename
+
+[ignore-path]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsignorepath
+
+[ignore-path-resolve-from]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsignorepathresolvefrom
+
+[ignore-patterns]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsignorepatterns
+
+[plugin-prefix]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionspluginprefix
+
+[default-config]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsdefaultconfig
+
+[config-transform]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsconfigtransform
+
+[plugins]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsplugins
+
+[reporter]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsreporter
+
+[reporteroptions]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsreporteroptions
+
+[color]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionscolor
+
+[silent]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionssilent
+
+[quiet]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsquiet
+
+[frail]: https://github.com/unifiedjs/unified-engine/blob/main/doc/options.md#optionsfrail
+
+[debug]: https://github.com/debug-js/debug
 
 [gulp]: https://gulpjs.com
 
 [plugin]: https://github.com/gulpjs/gulp/blob/HEAD/docs/writing-a-plugin/README.md
 
-[unified-processor]: https://github.com/unifiedjs/unified#processor
-
-[processor]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsprocessor
-
-[detect-config]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsdetectconfig
-
-[stream-error]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsstreamerror
-
-[tree]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionstree
-
-[tree-in]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionstreein
-
-[tree-out]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionstreeout
-
-[inspect]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsinspect
-
-[rc-name]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsrcname
-
-[package-field]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionspackagefield
-
-[rc-path]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsrcpath
-
-[settings]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionssettings
-
-[detect-ignore]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsdetectignore
-
-[ignore-name]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsignorename
-
-[ignore-path]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsignorepath
-
-[ignore-path-resolve-from]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsignorepathresolvefrom
-
-[ignore-patterns]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsignorepatterns
-
-[plugin-prefix]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionspluginprefix
-
-[default-config]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsdefaultconfig
-
-[config-transform]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsconfigtransform
-
-[plugins]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsplugins
-
-[reporter]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsreporter
-
-[reporteroptions]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsreporteroptions
-
-[color]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionscolor
-
-[silent]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionssilent
-
-[quiet]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsquiet
-
-[frail]: https://github.com/unifiedjs/unified-engine/blob/HEAD/doc/options.md#optionsfrail
+[streaming]: https://github.com/gulpjs/gulp/blob/main/docs/writing-a-plugin/guidelines.md
 
 [through2]: https://github.com/rvagg/through2#readme
 
-[streaming]: https://github.com/gulpjs/gulp/blob/HEAD/docs/writing-a-plugin/guidelines.md
+[unist-util-inspect]: https://github.com/syntax-tree/unist-util-inspect
 
-[use]: https://github.com/unifiedjs/unified#processoruseplugin-options
-
-[util-inspect]: https://github.com/syntax-tree/unist-util-inspect
+[gulp-remark]: https://github.com/remarkjs/gulp-remark

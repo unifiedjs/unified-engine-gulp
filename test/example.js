@@ -1,4 +1,4 @@
-import remark from 'remark'
+import {remark} from 'remark'
 import {gulpEngine} from '../index.js'
 
 export const example = gulpEngine({

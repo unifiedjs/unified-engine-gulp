@@ -3,16 +3,16 @@
  * @typedef {import('vinyl')} Vinyl
  */
 
-import {PassThrough} from 'stream'
+import {Buffer} from 'node:buffer'
+import {PassThrough} from 'node:stream'
 import PluginError from 'plugin-error'
 import File from 'vinyl'
 import test from 'tape'
-// @ts-expect-error: next.
 import remarkSlug from 'remark-slug'
 import remarkHtml from 'remark-html'
+import {gulpEngine} from '../index.js'
 import {example} from './example.js'
 import {spy} from './spy.js'
-import {gulpEngine} from '../index.js'
 
 const input = '# h1\n\n\n## h2\n'
 
@@ -148,7 +148,7 @@ test('unified-engine-gulp', (t) => {
       .once('data', (/** @type {Vinyl} */ file) => {
         st.equal(
           String(file.contents),
-          '<h1 id="h1">h1</h1>\n<h2 id="h2">h2</h2>\n',
+          '<h1 id="user-content-h1">h1</h1>\n<h2 id="user-content-h2">h2</h2>\n',
           'should work with a plug-in'
         )
 
@@ -166,7 +166,6 @@ test('unified-engine-gulp', (t) => {
       .use(() => {
         /** @type {Transformer} */
         return function (_, file) {
-          // @ts-expect-error: fine.
           file.data.value = 'changed'
         }
       })

@@ -1,13 +1,13 @@
 /**
  * @typedef {import('unified-engine').Options} EngineOptions
- * @typedef {import('vfile').VFileOptions} VFileOptions
  * @typedef {import('stream').Transform} Transform
  *
  * @typedef {EngineOptions & {name: string}} Options
  * @typedef {Transform & {use: (...values: unknown[]) => FileStream}} FileStream
  */
 
-import {PassThrough} from 'stream'
+import {Buffer} from 'node:buffer'
+import {PassThrough} from 'node:stream'
 import PluginError from 'plugin-error'
 import through from 'through2'
 import {VFile} from 'vfile'
@@ -119,7 +119,6 @@ function buffer(vinyl, options, callback) {
       value = Buffer.from(value, 'utf8')
     }
 
-    // @ts-expect-error: Vinyl’s types are wrong.
     vinyl.contents = value
     /** @type {Record<string, unknown>} */
     // type-coverage:ignore-next-line

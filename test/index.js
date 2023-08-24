@@ -11,8 +11,8 @@ import PluginError from 'plugin-error'
 import {remark} from 'remark'
 import remarkHtml from 'remark-html'
 import remarkSlug from 'remark-slug'
+import {gulpEngine} from 'unified-engine-gulp'
 import File from 'vinyl'
-import {gulpEngine} from '../index.js'
 import {spy} from './spy.js'
 
 const example = gulpEngine({
@@ -35,6 +35,12 @@ const report = [
 ].join('\n')
 
 test('unified-engine-gulp', async function (t) {
+  await t.test('should expose the public api', async function () {
+    assert.deepEqual(Object.keys(await import('unified-engine-gulp')).sort(), [
+      'gulpEngine'
+    ])
+  })
+
   await t.test('should throw w/o options', async function () {
     assert.throws(function () {
       // @ts-expect-error: check how a missing `options` is handled.

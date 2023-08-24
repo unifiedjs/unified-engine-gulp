@@ -18,7 +18,7 @@ const input = '# h1\n\n\n## h2\n'
 
 const report = [
   'readme.md',
-  '  4:1  warning  Remove 1 line before node  no-consecutive-blank-lines  remark-lint',
+  '4:1 warning Remove 1 line before node no-consecutive-blank-lines remark-lint',
   '',
   '⚠ 1 warning',
   ''
@@ -129,7 +129,7 @@ test('unified-engine-gulp', (t) => {
       .once('error', (error) => {
         st.ok(
           error.message.startsWith(
-            'Do not pass both `--file-path` and real files'
+            'Do not pass both `filePath` and real files'
           ),
           'should pass fatal errors'
         )

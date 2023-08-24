@@ -110,16 +110,7 @@ function buffer(vinyl, options, callback) {
       return callback(new PluginError(name, error || 'Unsuccessful running'))
     }
 
-    let value = vfile.value
-
-    /* istanbul ignore else - There aren’t any unified compilers that output
-     * buffers, but this logic is here to allow them (and binary files) to pass
-     * through untouched. */
-    if (typeof value === 'string') {
-      value = Buffer.from(value, 'utf8')
-    }
-
-    vinyl.contents = value
+    vinyl.contents = Buffer.from(vfile.value)
     /** @type {Record<string, unknown>} */
     // type-coverage:ignore-next-line
     vinyl.data = vfile.data

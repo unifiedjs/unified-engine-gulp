@@ -6,13 +6,12 @@ export function spy() {
   const output = []
   const originalWrite = stream.write
 
-  // @ts-expect-error: fine.
+  // @ts-expect-error: wrapper is fine for our spy.
   stream.write = function (/** @type {unknown} */ chunk, encoding, callback) {
     callback = typeof encoding === 'function' ? encoding : callback
 
     if (typeof callback === 'function') {
-      // @ts-expect-error: hush
-      setImmediate(callback)
+      setImmediate(callback, undefined)
     }
 
     output.push(chunk)

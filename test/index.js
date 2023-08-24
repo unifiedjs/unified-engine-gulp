@@ -8,12 +8,21 @@ import {Buffer} from 'node:buffer'
 import {PassThrough} from 'node:stream'
 import test from 'node:test'
 import PluginError from 'plugin-error'
-import File from 'vinyl'
-import remarkSlug from 'remark-slug'
+import {remark} from 'remark'
 import remarkHtml from 'remark-html'
+import remarkSlug from 'remark-slug'
+import File from 'vinyl'
 import {gulpEngine} from '../index.js'
-import {example} from './example.js'
 import {spy} from './spy.js'
+
+const example = gulpEngine({
+  name: 'gulp-example',
+  ignoreName: '.remarkignore',
+  packageField: 'remarkConfig',
+  pluginPrefix: 'remark',
+  processor: remark(),
+  rcName: '.remarkrc'
+})
 
 const input = '# h1\n\n\n## h2\n'
 
@@ -26,120 +35,111 @@ const report = [
 ].join('\n')
 
 test('unified-engine-gulp', async function (t) {
-  await t.test('configuring', async function () {
-    assert.throws(
-      function () {
-        // @ts-expect-error: runtime.
-        gulpEngine()
-      },
-      /^Error: Expected `name` in `configuration`$/,
-      'should throw without configuration'
-    )
-
-    assert.throws(
-      function () {
-        // @ts-expect-error: runtime.
-        gulpEngine({})
-      },
-      /^Error: Expected `name` in `configuration`$/,
-      'should throw without name in configuration'
-    )
+  await t.test('should throw w/o options', async function () {
+    assert.throws(function () {
+      // @ts-expect-error: check how a missing `options` is handled.
+      gulpEngine()
+    }, /^Error: Expected `name` in `configuration`$/)
   })
 
-  await t.test('null', async function () {
+  await t.test('should throw w/o `name` in options', async function () {
+    assert.throws(function () {
+      // @ts-expect-error: check how a missing `name` is handled.
+      gulpEngine({})
+    }, /^Error: Expected `name` in `configuration`$/)
+  })
+
+  await t.test('should pass through nullish files', async function () {
     await new Promise(function (resolve) {
       const stderr = spy()
 
       example({streamError: stderr.stream})
         .once('data', function (/** @type {Vinyl} */ file) {
-          assert.equal(file.contents, null, 'should pass through nullish files')
-          assert.equal(String(stderr()), '', 'should not report')
+          assert.equal(file.contents, null)
+          assert.equal(String(stderr()), '')
           resolve(undefined)
         })
         .write(new File({path: 'readme.md'}))
     })
   })
 
-  await t.test('stream', async function () {
+  await t.test('should pass a plugin error for a stream', async function () {
     await new Promise(function (resolve) {
       const stderr = spy()
 
       example({streamError: stderr.stream})
         .once('error', function (error) {
-          assert.ok(error instanceof PluginError, 'should pass a plugin error')
+          assert.ok(error instanceof PluginError)
           assert.equal(error.message, 'Streaming not supported')
           resolve(undefined)
         })
-        .write(new File({path: 'readme.md', contents: new PassThrough()}))
+        .write(new File({contents: new PassThrough(), path: 'readme.md'}))
     })
   })
 
-  await t.test('buffer', async function () {
+  await t.test('should work on a buffer', async function () {
     await new Promise(function (resolve) {
       const stderr = spy()
 
       example({streamError: stderr.stream})
         .once('data', function (/** @type {Vinyl} */ file) {
-          assert.equal(
-            String(file.contents),
-            '# h1\n\n## h2\n',
-            'should work on a buffer'
-          )
-          assert.equal(String(stderr()), report, 'should report')
+          assert.equal(String(file.contents), '# h1\n\n## h2\n')
+          assert.equal(String(stderr()), report)
           resolve(undefined)
         })
-        .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
+        .write(new File({contents: Buffer.from(input), path: 'readme.md'}))
     })
   })
 
-  await t.test('ignore files', async function () {
+  await t.test('should support ignore files', async function () {
     await new Promise(function (resolve) {
       const stderr = spy()
 
       example({streamError: stderr.stream})
         .once('data', function (/** @type {Vinyl} */ file) {
-          assert.equal(String(file.contents), input, 'should not mutate buffer')
-          assert.equal(String(stderr()), '', 'should not report')
+          assert.equal(String(file.contents), input)
+          assert.equal(String(stderr()), '')
           resolve(undefined)
         })
-        .write(new File({path: 'ignored.md', contents: Buffer.from(input)}))
+        .write(new File({contents: Buffer.from(input), path: 'ignored.md'}))
     })
   })
 
-  await t.test('frail mode', async function () {
+  await t.test('should support frail mode', async function () {
     await new Promise(function (resolve) {
       const stderr = spy()
 
       example({frail: true, streamError: stderr.stream})
         .once('error', function (error) {
-          assert.ok(error instanceof PluginError, 'should pass a plugin error')
+          assert.ok(error instanceof PluginError)
           assert.equal(error.message, 'Unsuccessful running')
-          assert.equal(String(stderr()), report, 'should report')
+          assert.equal(String(stderr()), report)
           resolve(undefined)
         })
-        .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
+        .write(new File({contents: Buffer.from(input), path: 'readme.md'}))
     })
   })
 
-  await t.test('error handling', async function () {
-    await new Promise(function (resolve) {
-      const stderr = spy()
+  await t.test(
+    'should pass fatal errors from `unified-engine`',
+    async function () {
+      await new Promise(function (resolve) {
+        const stderr = spy()
 
-      example({filePath: '!', streamError: stderr.stream})
-        .once('error', function (error) {
-          assert.ok(
-            error.message.startsWith(
-              'Do not pass both `filePath` and real files'
-            ),
-            'should pass fatal errors'
-          )
-          resolve(undefined)
-        })
-        .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
-    })
-  })
+        example({filePath: '!', streamError: stderr.stream})
+          .once('error', function (error) {
+            assert.match(
+              error.message,
+              /Do not pass both `filePath` and real files/
+            )
+            resolve(undefined)
+          })
+          .write(new File({contents: Buffer.from(input), path: 'readme.md'}))
+      })
+    }
+  )
 
-  await t.test('using plugins', async function () {
+  await t.test('should work with a plugin', async function () {
     await new Promise(function (resolve) {
       const stderr = spy()
 
@@ -149,18 +149,16 @@ test('unified-engine-gulp', async function (t) {
         .once('data', function (/** @type {Vinyl} */ file) {
           assert.equal(
             String(file.contents),
-            '<h1 id="user-content-h1">h1</h1>\n<h2 id="user-content-h2">h2</h2>\n',
-            'should work with a plug-in'
+            '<h1 id="user-content-h1">h1</h1>\n<h2 id="user-content-h2">h2</h2>\n'
           )
-
-          assert.equal(String(stderr()), report, 'should report')
+          assert.equal(String(stderr()), report)
           resolve(undefined)
         })
         .write(new File({path: 'readme.md', contents: Buffer.from(input)}))
     })
   })
 
-  await t.test('custom data', async function () {
+  await t.test('should support custom data', async function () {
     await new Promise(function (resolve) {
       const stderr = spy()
 
@@ -172,7 +170,6 @@ test('unified-engine-gulp', async function (t) {
           }
         })
         .once('data', function (/** @type {Vinyl} */ file) {
-          // Coverage.
           // type-coverage:ignore-next-line
           assert.equal(file.data.value, 'changed')
           resolve(undefined)

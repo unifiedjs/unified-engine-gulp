@@ -53,11 +53,11 @@ import {remark} from 'remark'
 
 export const gulpRemark = engineGulp({
   name: 'gulp-remark',
-  processor: remark,
-  rcName: '.remarkrc',
-  packageField: 'remarkConfig',
   ignoreName: '.remarkignore',
-  pluginPrefix: 'remark'
+  packageField: 'remarkConfig',
+  pluginPrefix: 'remark',
+  processor: remark,
+  rcName: '.remarkrc'
 })
 ```
 

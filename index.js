@@ -1,9 +1,50 @@
 /**
+ * @typedef {import('node:stream').Transform} Transform
+ * @typedef {import('unified').PluggableList} PluggableList
  * @typedef {import('unified-engine').Options} EngineOptions
- * @typedef {import('stream').Transform} Transform
+ */
+
+/**
+ * @typedef EngineGulpFields
+ *   Extra fields for `unified-engine-gulp`.
+ * @property {string} name
+ *   Name of plugin.
+ * @property {EngineOptions['processor']} processor
+ *   Processor.
  *
- * @typedef {EngineOptions & {name: string}} Options
- * @typedef {Transform & {use: (...values: Array<unknown>) => FileStream}} FileStream
+ * @typedef {Transform & FileStreamFields} FileStream
+ *   File stream.
+ *
+ * @typedef FileStreamFields
+ *   Extra file stream fields.
+ * @property {Use} use
+ *   Use a plugin.
+ *
+ * @typedef {EngineGulpFields & PluginOptions} Options
+ *   Configuration for `unified-engine-gulp` users.
+ *
+ * @typedef {Omit<EngineOptions, 'alwaysStringify' | 'cwd' | 'extensions' | 'files' | 'out' | 'output' | 'plugins' | 'processor' | 'silentlyIgnore' | 'streamIn' | 'streamOut'>} PluginOptions
+ *   Configuration for plugin users.
+ *
+ * @callback TransformCallback
+ *   Use.
+ * @param {PluginError | null} error
+ *   Error.
+ *
+ *   Note: `null` included because `gulp` needs it.
+ * @param {Vinyl | undefined} [file]
+ *   File.
+ * @returns {undefined | void}
+ *   Nothing.
+ *
+ *   Note: `void` included because `gulp` needs it.
+ *
+ * @callback Use
+ *   Use.
+ * @param {...unknown} values
+ *   Things to use.
+ * @returns {FileStream}
+ *   Current file stream.
  */
 
 import {Buffer} from 'node:buffer'
@@ -14,42 +55,55 @@ import {VFile} from 'vfile'
 import Vinyl from 'vinyl'
 import {engine} from 'unified-engine'
 
-// To do: switch back to `convert-vinyl-to-vfile` when it support `vfile@5`.
+// To do: switch back to `convert-vinyl-to-vfile` when it support `vfile@6`.
 
 /**
  * Create a Gulp plugin.
  *
- * @param {Options} configuration
+ * @param {Options} options
+ *   Configuration.
+ * @returns
+ *   Gulp Plugin.
  */
-export function gulpEngine(configuration) {
-  if (!configuration || !configuration.name) {
+export function gulpEngine(options) {
+  if (!options || !options.name) {
     throw new Error('Expected `name` in `configuration`')
   }
+
+  const {name, ...gulpEngineOptions} = options
 
   return plugin
 
   /**
-   * @param {Partial<Options>} options
+   * @param {PluginOptions | null | undefined} [pluginOptions]
+   *   Configuration (optional).
+   * @returns {FileStream}
+   *   File stream.
    */
-  function plugin(options) {
-    /** @type {Options} */
-    const config = Object.assign({}, options, configuration, {
-      // Prevent some settings from being configured.
-      plugins: [],
-      silentlyIgnore: true,
+  function plugin(pluginOptions) {
+    /** @type {PluggableList} */
+    const plugins = []
+    /** @type {EngineOptions} */
+    const options = {
+      // Allow users to pass in their own options.
+      ...pluginOptions,
+      // Prefer everything given by the `gulpEngine` user.
+      ...gulpEngineOptions,
+      // Prevent other things from being configured.
       alwaysStringify: true,
-      output: false,
       cwd: undefined,
-      files: undefined,
       extensions: undefined,
+      files: undefined,
       out: undefined,
+      output: false,
+      silentlyIgnore: true,
       streamIn: undefined,
       streamOut: undefined
-    })
+    }
 
     // Handle virtual files.
-    /** @type {FileStream} */
-    const fileStream = Object.assign(through.obj(transform), {use})
+    const fileStream = /** @type {FileStream} */ (through.obj(transform))
+    fileStream.use = use
 
     return fileStream
 
@@ -57,33 +111,32 @@ export function gulpEngine(configuration) {
      * Handle a vinyl entry with buffer contents.
      *
      * @param {Vinyl} vinyl
+     *   Vinyl file.
      * @param {unknown} _
-     * @param {(error: PluginError|null, file?: Vinyl) => void} callback
-     * @returns {void}
+     *   Encoding (ignored).
+     * @param {TransformCallback} callback
+     *   Callback.
+     * @returns {undefined}
+     *   Nothing.
      */
     function transform(vinyl, _, callback) {
       if (vinyl.isStream()) {
-        return callback(
-          new PluginError(configuration.name, 'Streaming not supported')
-        )
+        callback(new PluginError(name, 'Streaming not supported'))
+      } else if (vinyl.isBuffer()) {
+        buffer(name, vinyl, {...options, plugins}, callback)
+      } else {
+        callback(null, vinyl)
       }
-
-      if (vinyl.isBuffer()) {
-        return buffer(vinyl, config, callback)
-      }
-
-      return callback(null, vinyl)
     }
 
     // Inject plugins.
     // See: <https://github.com/unifiedjs/unified-engine>.
     /**
-     * @param {Array<unknown>} thing
-     * @returns {FileStream}
+     * @type {Use}
      */
     function use(...thing) {
-      // @ts-expect-error: fine.
-      config.plugins.push(thing)
+      // @ts-expect-error: assume usable values.
+      plugins.push(thing)
       return fileStream
     }
   }
@@ -92,20 +145,22 @@ export function gulpEngine(configuration) {
 /**
  * Handle a vinyl entry with buffer contents.
  *
+ * @param {string} name
+ *   Name of plugin.
  * @param {Vinyl} vinyl
- * @param {Options} options
- * @param {(error: PluginError|null, file?: Vinyl) => void} callback
- * @returns {void}
+ *   Vinyl file.
+ * @param {EngineOptions} options
+ *   Configuration.
+ * @param {TransformCallback} callback
+ *   Callback.
+ * @returns {undefined}
+ *   Nothing.
  */
-function buffer(vinyl, options, callback) {
-  const name = options.name
+function buffer(name, vinyl, options, callback) {
   const vfile = convertVinylToVFile(vinyl)
-  const config = Object.assign({}, options, {
-    streamOut: new PassThrough(),
-    files: [vfile]
-  })
+  const config = {...options, streamOut: new PassThrough(), files: [vfile]}
 
-  engine(config, (error, status) => {
+  engine(config, function (error, status) {
     if (error || status) {
       return callback(new PluginError(name, error || 'Unsuccessful running'))
     }
@@ -122,11 +177,13 @@ function buffer(vinyl, options, callback) {
 /**
  * Convert a Vinyl file to a VFile
  *
- * @param {Vinyl|undefined} [vinyl] Vinyl file to convert
- * @returns {VFile} VFile version of vinyl
+ * @param {Vinyl | null | undefined} [vinyl]
+ *   Vinyl file to convert.
+ * @returns {VFile}
+ *   VFile version of vinyl.
  */
 function convertVinylToVFile(vinyl) {
-  /** @type {Vinyl|undefined} */
+  /** @type {Vinyl | undefined} */
   let newVinyl
 
   /*
@@ -135,7 +192,7 @@ function convertVinylToVFile(vinyl) {
    * This forces a potential Vinyl file to be a Vinyl file.
    */
   if (vinyl) {
-    // @ts-expect-error: fine.
+    // @ts-expect-error: readable vs mutable is fine.
     newVinyl = new Vinyl(vinyl)
   }
 

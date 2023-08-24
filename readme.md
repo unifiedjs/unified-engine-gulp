@@ -214,7 +214,7 @@ to `*`, such as `DEBUG="*" gulp …`.
 ## Types
 
 This package is fully typed with [TypeScript][].
-It export the additional types `Options` and `FileStream`.
+It export the additional types `FileStream` and `Options`.
 
 ## Compatibility
 
